@@ -41,4 +41,17 @@ class market_basket_data extends Model
 
         return $transactions;
     }
+
+    // mencari data top selling tiap product name
+    public static  function getTopSellingCategory($productName)
+    {
+        $topSelling = static::select('product_name', static::raw('SUM(quantity) as total_sales'))
+            ->where('category', '=', $productName)
+            ->groupBy('product_name')
+            ->orderBy('total_sales', 'DESC')
+            ->take(5)
+            ->get();
+
+        return $topSelling;
+    }
 }

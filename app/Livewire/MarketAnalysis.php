@@ -15,6 +15,7 @@ class MarketAnalysis extends Component
 {
     public $products = [];
     public $topRecommendations = [];
+    public $topSellingItem = [];
     public $selectedProduct = '';
 
     // Getting product name from dropdown selection input
@@ -73,7 +74,13 @@ class MarketAnalysis extends Component
         // Get top 5 recommendations
         $this->topRecommendations = array_slice($recommendations, 0, 5);
 
-        // dd($this->selectedProduct);
+        // Get top selling item each recommendation
+        $counter = 0;
+        foreach ($this->topRecommendations as $recommendation) {
+            $this->topSellingItem[$counter++] = market_basket_data::getTopSellingCategory($recommendation['consequent']);
+        }
+
+        // dd($this->topSellingItem);
     }
 
     public function render()
@@ -81,7 +88,8 @@ class MarketAnalysis extends Component
         return view('livewire.market-analysis', [
             'products' => $this->products,
             'topRecommendations' => $this->topRecommendations,
-            'selectedProduct' => $this->selectedProduct
+            'selectedProduct' => $this->selectedProduct,
+            'topSellingItem' => $this->topSellingItem
         ]);
     }
 }

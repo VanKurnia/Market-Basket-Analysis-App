@@ -1,11 +1,25 @@
-@props(['recommendation', 'rank'])
+@props(['recommendation', 'rank', 'topSelling'])
 <div x-data="{{ $recommendation['id'] }}: null" x-init="{{ $recommendation['id'] }} = new Chart(document.getElementById('{{ $recommendation['id'] }}').getContext('2d'), {
     type: 'pie',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        {{-- labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], --}}
+        labels: [
+            <?php $max = count($topSelling);
+            for ($i = 0; $i < $max; $i++) {
+                $label = $topSelling[$i];
+                echo "'" . $label->product_name . "'" . ',';
+            } ?>
+        ],
         datasets: [{
             label: ['# of Confidence'],
-            data: [12, 19, 3, 5, 2, 3],
+            {{-- data: [12, 19, 3, 5, 2, 3], --}}
+            data: [
+                <?php $max = count($topSelling);
+                for ($i = 0; $i < $max; $i++) {
+                    $label = $topSelling[$i];
+                    echo "'" . $label->total_sales . "'" . ',';
+                } ?>
+            ],
             borderWidth: 1,
             borderColor: '#ffff',
             backgroundColor: [
@@ -61,9 +75,14 @@
                     </canvas>
                 </div>
                 <div class="col-span-3">
-                    <span class="text-white font-semibold">
+                    <span class="text-white font-semibold mb-4">
                         Keterangan :
                     </span>
+                    @foreach ($topSelling as $salesNumber)
+                        <h2 class="text-white font-semibold">
+                            - {{ $salesNumber->product_name }} = {{ $salesNumber->total_sales }}
+                        </h2>
+                    @endforeach
                 </div>
             </div>
         </div>
