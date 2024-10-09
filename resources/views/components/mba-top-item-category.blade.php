@@ -1,6 +1,6 @@
-@props(['recommendation', 'rank', 'topSelling'])
+@props(['recommendation', 'rank', 'topSelling', 'productDesc'])
 <div x-data="{{ $recommendation['id'] }}: null" x-init="{{ $recommendation['id'] }} = new Chart(document.getElementById('{{ $recommendation['id'] }}').getContext('2d'), {
-    type: 'pie',
+    type: 'doughnut',
     data: {
         {{-- labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], --}}
         labels: [
@@ -23,12 +23,11 @@
             borderWidth: 1,
             borderColor: '#ffff',
             backgroundColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgb(101, 163, 13)',
+                'rgb(202, 138, 4)',
+                'rgb(217, 119, 6)',
+                'rgb(234, 88, 12)',
+                'rgb(220, 38, 38)'
             ],
         }]
     },
@@ -62,6 +61,10 @@
         <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 {{ $rank }}. {{ $recommendation['consequent'] }}
+            </h5>
+
+            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-yellow-200">
+                {{ ucfirst(strtolower($recommendation['consequent'])) }} / {{ $productDesc[$rank]->description }}
             </h5>
 
             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">

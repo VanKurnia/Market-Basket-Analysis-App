@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\deskripsi_produk;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Title;
@@ -16,6 +17,7 @@ class MarketAnalysis extends Component
     public $products = [];
     public $topRecommendations = [];
     public $topSellingItem = [];
+    public $productDesc = [];
     public $selectedProduct = '';
 
     // Getting product name from dropdown selection input
@@ -33,9 +35,6 @@ class MarketAnalysis extends Component
     {
         $this->validate(); // Ensure the input is valid
 
-        // You can set a flash message here if needed
-        // session()->flash('message', 'Form submitted successfully.');
-
         // Retrieve transactions data
         $transactions = market_basket_data::getTransactionsData();
 
@@ -48,6 +47,8 @@ class MarketAnalysis extends Component
         // Input product from user
         $inputProduct = $this->categoryProduct;
         $this->selectedProduct = $inputProduct;
+
+        $this->productDesc[0] = deskripsi_produk::getDeskripsiProduk($inputProduct);
 
         // Get association rules
         $rules = $apriori->getRules();
@@ -77,10 +78,9 @@ class MarketAnalysis extends Component
         // Get top selling item each recommendation
         $counter = 0;
         foreach ($this->topRecommendations as $recommendation) {
-            $this->topSellingItem[$counter++] = market_basket_data::getTopSellingCategory($recommendation['consequent']);
+            $this->topSellingItem[$counter] = market_basket_data::getTopSellingCategory($recommendation['consequent']);
+            $this->productDesc[$counter++ + 1] = deskripsi_produk::getDeskripsiProduk($recommendation['consequent']);
         }
-
-        // dd($this->topSellingItem);
     }
 
     public function render()
@@ -89,7 +89,8 @@ class MarketAnalysis extends Component
             'products' => $this->products,
             'topRecommendations' => $this->topRecommendations,
             'selectedProduct' => $this->selectedProduct,
-            'topSellingItem' => $this->topSellingItem
+            'topSellingItem' => $this->topSellingItem,
+            'productDesc' => $this->productDesc
         ]);
     }
 }

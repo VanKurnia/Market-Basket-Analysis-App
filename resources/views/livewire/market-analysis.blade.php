@@ -13,7 +13,7 @@
             <x-mba-form></x-mba-form>
         @else
             {{-- Result --}}
-            <x-mba-result :topRecommendations="$topRecommendations" :selectedProduct="$selectedProduct"></x-mba-result>
+            <x-mba-result :topRecommendations="$topRecommendations" :selectedProduct="$selectedProduct" :productDesc="$productDesc[0]"></x-mba-result>
 
             {{-- chart top selling item for each recommendations --}}
             @php $counter = 1; @endphp
@@ -21,8 +21,8 @@
                 @php
                     $recommendation['id'] = 'top' . (string) $counter++;
                 @endphp
-                <x-mba-top-item-category :recommendation="$recommendation" :rank="$counter - 1"
-                    :topSelling="$topSellingItem[$counter - 2]"></x-mba-top-item-category>
+                <x-mba-top-item-category :recommendation="$recommendation" :rank="$counter - 1" :topSelling="$topSellingItem[$counter - 2]" :productDesc="$productDesc">
+                </x-mba-top-item-category>
             @endforeach
         @endif
     </div>
