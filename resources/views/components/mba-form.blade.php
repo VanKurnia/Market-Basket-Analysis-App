@@ -4,12 +4,12 @@
     <div class="grid gap-4 sm:grid-cols-1 sm:gap-6 mb-4">
         <div>
             <label for="product" class="block mb-2 text-xl font-semibold text-gray-900 dark:text-white">
-                Product Category 🛍️
+                Product Category
             </label>
             <select id="product" wire:model='categoryProduct'
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 required>
-                <option selected="" value="">-- Select product category --</option>
+                <option selected="" value="">-- Pilih Kategori Produk --</option>
                 @foreach ($this->products as $product)
                     <option value="{{ $product['category'] }}">{{ $product['category'] }}</option>
                 @endforeach

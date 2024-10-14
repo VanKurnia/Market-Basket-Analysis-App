@@ -53,5 +53,8 @@ export default {
   plugins: [
     require('flowbite/plugin')
   ],
+  safelist: [
+    { pattern: /bg-./, variants: ['dark'] },
+  ]
 }
 

@@ -5,12 +5,19 @@
         <h2 class="mb-4 text-3xl text-center font-bold text-gray-900 dark:text-white">
             Market Basket Analysis for Retail Store<br>
             Using Apriori Algorithm<br>
-            🛒 🏪 💹 💵
         </h2>
 
         @if ($topRecommendations == [])
             {{-- Form --}}
             <x-mba-form></x-mba-form>
+
+            {{-- Penjelasan --}}
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+            <h2 class="mb-3 text-lg text-center font-semibold text-gray-900 dark:text-neutral-400">
+                Analisis ini membantu menemukan pola pembelian pelanggan serta rekomendasi produk
+                yang sering dibeli bersamaan. Bagian hasil akan menampilkan rekomendasi produk beserta daftar produk
+                terlaris, memberi Anda gambaran tentang performa produk dan peluang bundling.
+            </h2>
         @else
             {{-- Result --}}
             <x-mba-result :topRecommendations="$topRecommendations" :selectedProduct="$selectedProduct" :productDesc="$productDesc[0]"></x-mba-result>

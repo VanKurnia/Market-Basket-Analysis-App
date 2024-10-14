@@ -67,6 +67,7 @@
                 {{ ucfirst(strtolower($selectedProduct)) }} / {{ $productDesc->description }}
             </h5>
 
+            {{-- Pengantar --}}
             <div class="mb-4 text-lg text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
                 Berdasar analisis data pola pembelian konsumen menggunakan algoritma apriori, berikut merupakan produk
                 yang sering dibeli bersamaan dengan <span class="font-semibold">{{ strtolower($selectedProduct) }}</span>
@@ -76,6 +77,19 @@
             {{-- Chart --}}
             <div>
                 <canvas id="RecommendationChart" width="600" height="400"> </canvas>
+            </div>
+
+            {{-- Interpretasi --}}
+            @php $mostRecommendProduct = $topRecommendations[0]; @endphp
+            <div class="mt-3 mb-4 text-lg text-green-800 bg-green-50 dark:bg-gray-800 dark:text-cyan-300"
+                role="alert">
+                Produk yang paling direkomendasikan dengan
+                <span class="font-semibold">{{ strtolower($selectedProduct) }}
+                    adalah {{ strtolower($mostRecommendProduct['consequent']) }}
+                </span> dimana terdapat
+                {{ round($mostRecommendProduct['confidence'] * 100, 2) }}% kemungkinan konsumen akan membeli
+                {{ strtolower($mostRecommendProduct['consequent']) }} ketika sudah memasukkan
+                {{ strtolower($selectedProduct) }} dalam keranjang belanja.
             </div>
         </div>
     </div>

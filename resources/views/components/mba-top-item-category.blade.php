@@ -68,7 +68,8 @@
             </h5>
 
             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                Berikut merupakan top selling produk dengan kategori {{ strtolower($recommendation['consequent']) }} :
+                Berikut merupakan analisis produk dengan penjualan terbanyak dalam kategori
+                {{ strtolower($recommendation['consequent']) }} :
             </p>
 
             {{-- Chart --}}
@@ -78,16 +79,96 @@
                     </canvas>
                 </div>
                 <div class="col-span-3">
-                    <span class="text-white font-semibold mb-4">
+                    {{-- rank --}}
+                    <span class="block text-white font-semibold mb-4">
                         Keterangan :
                     </span>
+                    @php $numbering = 1; @endphp
                     @foreach ($topSelling as $salesNumber)
                         <h2 class="text-white font-semibold">
-                            - {{ $salesNumber->product_name }} = {{ $salesNumber->total_sales }}
+                            {{ $numbering++ }}. {{ $salesNumber->product_name }} => {{ $salesNumber->total_sales }}
+                            item terjual
                         </h2>
                     @endforeach
+
+                    {{-- saran --}}
+                    <span class="block mt-8 text-yellow-200 font-semibold">
+                        Hasil Analisis :
+                    </span>
+                    <?php
+                    $productName = ucfirst(strtolower($recommendation['consequent'])) . '/' . $productDesc[$rank]->description;
+                    ?>
+                    @switch($rank)
+                        @case(1)
+                            <span class="block mt-2 text-cyan-300 font-semibold">
+                                <span class="block mt-2 font-bold text-white"> Bundle: </span>
+                                Anda dapat membuat diskon khusus atau penawaran bundle antara {{ $productName }} dan
+                                {{ strtolower($recommendation['antecedent']) }} karena sering dibeli bersamaan. <br>
+                                <span class="block mt-2 font-bold text-white"> Tata Letak: </span>
+                                Letakkan {{ $productName }} bersama dengan {{ strtolower($recommendation['antecedent']) }}
+                                yang sering dibeli bersamaan, untuk mendorong pembelian bersama.
+                            </span>
+                        @break
+
+                        @case(2)
+                            <span class="block mt-2 text-cyan-300 font-semibold">
+                                <span class="block mt-2 font-bold text-white"> Bundle: </span>
+                                Pertimbangkan diskon beli satu gratis satu atau potongan harga saat {{ $productName }} dibeli
+                                bersama
+                                {{ strtolower($recommendation['antecedent']) }}. Strategi ini bisa menarik minat konsumen.<br>
+                                <span class="block mt-2 font-bold text-white"> Tata Letak: </span>
+                                Letakkan {{ $productName }} bersama {{ strtolower($recommendation['antecedent']) }} untuk
+                                mendorong pembelian yang lebih besar.
+                            </span>
+                        @break
+
+                        @case(3)
+                            <span class="block mt-2 text-cyan-300 font-semibold">
+                                <span class="block mt-2 font-bold text-white"> Bundle: </span>
+                                Buat penawaran kombo dengan harga yang lebih terjangkau jika konsumen membeli
+                                {{ $productName }} bersama
+                                {{ strtolower($recommendation['antecedent']) }}. Strategi ini bisa meningkatkan penjualan kedua
+                                produk.<br>
+                                <span class="block mt-2 font-bold text-white"> Tata Letak: </span>
+                                Pastikan {{ $productName }} selalu dipromosikan bersama
+                                {{ strtolower($recommendation['antecedent']) }}, sehingga konsumen lebih
+                                tergoda untuk membeli kedua produk.
+                            </span>
+                        @break
+
+                        @case(4)
+                            <span class="block mt-2 text-cyan-300 font-semibold">
+                                <span class="block mt-2 font-bold text-white"> Bundle: </span>
+                                Diskon untuk pembelian bersama {{ strtolower($recommendation['antecedent']) }} dapat
+                                memaksimalkan penjualan. Misalnya, jika
+                                membeli {{ $productName }} dengan {{ strtolower($recommendation['antecedent']) }}, tawarkan
+                                diskon tambahan.<br>
+                                <span class="block mt-2 font-bold text-white"> Tata Letak: </span>
+                                Susun {{ $productName }} bersama {{ strtolower($recommendation['antecedent']) }} di etalase
+                                rekomendasi atau promosi khusus.
+                            </span>
+                        @break
+
+                        @case(5)
+                            <span class="block mt-2 text-cyan-300 font-semibold">
+                                <span class="block mt-2 font-bold text-white"> Bundle: </span>
+                                Penawaran harga spesial saat {{ $productName }} dibeli dengan
+                                {{ strtolower($recommendation['antecedent']) }} dapat membantu
+                                meningkatkan penjualan.<br>
+                                <span class="block mt-2 font-bold text-white"> Tata Letak: </span>
+                                Selalu asosiasikan {{ $productName }} dengan {{ strtolower($recommendation['antecedent']) }}
+                                dalam promosi Anda.
+                            </span>
+                        @break
+
+                        @default
+                            <span class="block mt-2 text-white font-semibold">
+                                Tidak ada rekomendasi tambahan.
+                            </span>
+                    @endswitch
                 </div>
             </div>
+
         </div>
     </div>
 </div>
