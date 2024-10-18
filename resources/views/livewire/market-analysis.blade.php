@@ -11,6 +11,16 @@
             {{-- Form --}}
             <x-mba-form></x-mba-form>
 
+            @if ($resultStatus == 'none')
+                <h2 class="mt-3 mb-2 text-lg text-left font-semibold text-gray-900 dark:text-orange-500">
+                    Kami tidak dapat menampilkan rekomendasi produk yang relevan saat ini. Hal ini dapat disebabkan oleh
+                    beberapa faktor berikut: <br>
+                    - Terdapat variasi yang besar dalam jenis produk atau kategori yang dianalisis <br>
+                    - Produk tidak memenuhi syarat untuk menghasilkan aturan asosiasi yang valid <br>
+                    - Support dan Confidence Terlalu Rendah <br>
+                </h2>
+            @endif
+
             {{-- Penjelasan --}}
             <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
             <h2 class="mb-3 text-lg text-center font-semibold text-gray-900 dark:text-neutral-400">

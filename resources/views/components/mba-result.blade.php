@@ -7,7 +7,14 @@
             <?php $max = count($topRecommendations);
             for ($i = 0; $i < $max; $i++) {
                 $label = $topRecommendations[$i];
-                echo "'" . $label['consequent'] . "'" . ',';
+                // Memisahkan label menjadi beberapa baris jika lebih dari 2 kata
+                $labelWords = explode(' ', $label['consequent']);
+                if (count($labelWords) > 1) {
+                    $labelWithLineBreak = "['" . implode("', '", array_slice($labelWords, 0, 2)) . "', '" . implode(" ', '", array_slice($labelWords, 2)) . "']";
+                    echo $labelWithLineBreak . ',';
+                } else {
+                    echo "'" . $label['consequent'] . "',";
+                }
             } ?>
         ],
         datasets: [{
@@ -36,12 +43,20 @@
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: '#ffff' // Font color for y-axis labels
+                    color: '#ffff', // Font color for y-axis labels
+                    font: {
+                        size: 14 // Change font size here for y-axis
+                    },
+                    align: 'left', // Align label text to the left
+                    padding: 10 // Optional: Adds padding to create space between labels and axis
                 }
             },
             x: {
                 ticks: {
-                    color: '#ffff' // Font color for x-axis labels
+                    color: '#ffff', // Font color for x-axis labels
+                    font: {
+                        size: 14 // Change font size here for y-axis
+                    }
                 }
             }
         },

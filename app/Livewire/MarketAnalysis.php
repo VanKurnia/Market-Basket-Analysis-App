@@ -19,6 +19,7 @@ class MarketAnalysis extends Component
     public $topSellingItem = [];
     public $productDesc = [];
     public $selectedProduct = '';
+    public $resultStatus = '';
 
     // Getting product name from dropdown selection input
     #[Rule('required')]
@@ -81,6 +82,15 @@ class MarketAnalysis extends Component
             $this->topSellingItem[$counter] = market_basket_data::getTopSellingCategory($recommendation['consequent']);
             $this->productDesc[$counter++ + 1] = deskripsi_produk::getDeskripsiProduk($recommendation['consequent']);
         }
+
+        if (count($this->topRecommendations) < 1) {
+            $this->resultStatus = 'none';
+        } else {
+            $this->resultStatus = 'filled';
+        }
+
+        // dump($this->topRecommendations);
+        // dd($this->resultStatus);
     }
 
     public function render()
@@ -90,7 +100,8 @@ class MarketAnalysis extends Component
             'topRecommendations' => $this->topRecommendations,
             'selectedProduct' => $this->selectedProduct,
             'topSellingItem' => $this->topSellingItem,
-            'productDesc' => $this->productDesc
+            'productDesc' => $this->productDesc,
+            'resultStatus' => $this->resultStatus,
         ]);
     }
 }
