@@ -11,7 +11,7 @@
             } ?>
         ],
         datasets: [{
-            label: ['# of Confidence'],
+            label: ['Banyak Item Terjual'],
             {{-- data: [12, 19, 3, 5, 2, 3], --}}
             data: [
                 <?php $max = count($topSelling);

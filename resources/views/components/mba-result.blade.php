@@ -45,7 +45,7 @@
                 ticks: {
                     color: '#ffff', // Font color for y-axis labels
                     font: {
-                        size: 14 // Change font size here for y-axis
+                        size: 16 // Change font size here for y-axis
                     },
                     align: 'left', // Align label text to the left
                     padding: 10 // Optional: Adds padding to create space between labels and axis
