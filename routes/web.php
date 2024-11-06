@@ -2,6 +2,7 @@
 
 use App\Livewire\MarketAnalysis;
 use App\Livewire\Overview;
+use App\Livewire\SalesTrendOverTime;
 use App\Livewire\TopSellingProduct;
 use Illuminate\Support\Facades\Route;
 
@@ -12,3 +13,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Overview::class);
 Route::get('/market-analysis', MarketAnalysis::class);
 Route::get('/top-selling-product', TopSellingProduct::class);
+Route::get('/top-selling-product', TopSellingProduct::class);
+Route::get('/sales-trend-over-time', SalesTrendOverTime::class);

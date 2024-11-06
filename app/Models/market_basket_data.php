@@ -54,4 +54,18 @@ class market_basket_data extends Model
 
         return $topSelling;
     }
+
+    // filter chart sales trend overtime
+    public static function getSalesTrendOverTimeChartData($productCategory, $timeRange = null)
+    {
+        $query = static::query()->where('category', $productCategory);
+
+        // filter time range
+        if ($timeRange) {
+            if ($timeRange === '7') {
+            }
+        }
+
+        return $query->get();
+    }
 }
