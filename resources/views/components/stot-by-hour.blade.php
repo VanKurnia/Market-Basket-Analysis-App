@@ -1,6 +1,5 @@
-@props(['chartData', 'selectedProduct', 'deskripsiProduk', 'top5Dates', 'top2DaysOfWeek'])
-
-<div x-data="{ sTOTChart: null }" x-init="sTOTChart = new Chart(document.getElementById('sTOTChart').getContext('2d'), {
+@props(['chartData', 'selectedProduct', 'deskripsiProduk', 'top5Hour'])
+<div x-data="{ sTOTChartByHour: null }" x-init="sTOTChartByHour = new Chart(document.getElementById('sTOTChartByHour').getContext('2d'), {
     type: 'line',
     data: {
         labels: {{ json_encode($chartData['labels']) }},
@@ -18,7 +17,7 @@
             x: {
                 title: {
                     display: true,
-                    text: 'Date',
+                    text: 'Hour',
                     color: '#e6b02a',
                     font: {
                         size: 16
@@ -44,43 +43,33 @@
         }
     }
 });">
-
     <div>
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
         <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                {{ ucfirst(strtolower($selectedProduct)) }} Product Sales Visualization :
-            </h5> <br>
-
-            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-yellow-200">
-                {{ ucfirst(strtolower($selectedProduct)) }} / {{ $deskripsiProduk->description }}
-            </h5>
-
             {{-- Pengantar --}}
             <div class="mb-4 text-lg text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-                Berikut merupakan visualisasi data trend penjualan produk <span
+                Berikut merupakan visualisasi data trend penjualan berdasarkan jam dijualnya produk <span
                     class="font-semibold">{{ strtolower($selectedProduct) }}</span>
                 :
             </div>
 
             {{-- Chart --}}
             <div>
-                <canvas id="sTOTChart" width="600" height="400"></canvas>
+                <canvas id="sTOTChartByHour" width="600" height="400"></canvas>
             </div>
-
 
             {{-- Hasil Analisis --}}
             <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
             <span class="dark:text-yellow-200 font-bold">Hasil Analisis :</span> <br>
             <div class="mt-3 mb-4 text-lg dark:text-white">
-                <span class="block mb-3 font-semibold">Berikut merupakan tanggal penjualan terbanyak untuk produk
+                <span class="block mb-3 font-semibold">Berikut merupakan waktu (*jam) penjualan terbanyak untuk produk
                     {{ strtolower($selectedProduct) }} : </span>
                 <ul>
                     <?php $counter = 1; ?>
-                    @foreach ($top5Dates as $i)
+                    @foreach ($top5Hour as $i)
                         <li>
                             <span class="font-semibold">{{ $counter++ . '.) ' }}</span>
-                            <span class="text-cyan-300">{{ $i->sale_date }}</span>
+                            <span class="text-cyan-300">{{ $i->formatted_hour }}</span>
                             => dengan
                             <span class="text-cyan-300">{{ $i->total_items_sold }}</span>
                             produk {{ ucfirst(strtolower($selectedProduct)) }}
@@ -89,24 +78,7 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="mt-3 mb-4 text-lg dark:text-white">
-                <span class="block mb-3 font-semibold"> Berikut merupakan hari dimana produk
-                    {{ strtolower($selectedProduct) }} banyak dibeli dalam frekuensi waktu mingguan : </span>
-                <ul>
-                    <?php $counter = 1; ?>
-                    @foreach ($top2DaysOfWeek as $key => $value)
-                        <li>
-                            <span class="font-semibold">{{ $counter++ . '.) ' }}</span>
-                            Hari
-                            <span class="text-cyan-300">{{ $key }}</span>
-                            => dengan rata-rata
-                            <span class="text-cyan-300">{{ round($value, 2) }}</span>
-                            produk {{ ucfirst(strtolower($selectedProduct)) }}
-                            terjual
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+
         </div>
     </div>
 </div>

@@ -8,6 +8,7 @@
         </h2>
 
         @if ($topRecommendations == [])
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
             {{-- Form --}}
             <x-mba-form></x-mba-form>
 

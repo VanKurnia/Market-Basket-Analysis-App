@@ -11,6 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    
 </head>
 
 <body class="bg-white dark:bg-gray-900">
@@ -19,6 +20,7 @@
     {{ $slot }}
 
     {{-- Script --}}
+    @stack('script')
     @livewireScripts
 </body>
 

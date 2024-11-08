@@ -49,7 +49,7 @@
                         </x-navlink>
                     </li>
                     <li>
-                        <x-navlink wire:navigate href="/sales-trend-over-time" :active="request()->is('sales-trend-over-time')">Sales Trend Over
+                        <x-navlink href="/sales-trend-over-time" :active="request()->is('sales-trend-over-time')">Sales Trend Over
                             Time
                         </x-navlink>
                     </li>

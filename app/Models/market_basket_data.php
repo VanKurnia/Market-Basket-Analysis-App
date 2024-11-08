@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class market_basket_data extends Model
 {
@@ -55,17 +56,57 @@ class market_basket_data extends Model
         return $topSelling;
     }
 
-    // filter chart sales trend overtime
-    public static function getSalesTrendOverTimeChartData($productCategory, $timeRange = null)
+    // Fungsi untuk mendapatkan total item terjual berdasarkan kategori dan jangka waktu (opsional)
+    public static function getSalesTrendOverTimeChartData($category, $startDate = null, $endDate = null)
     {
-        $query = static::query()->where('category', $productCategory);
+        return self::selectRaw('DATE(date) as sale_date, SUM(quantity) as total_items_sold')
+            ->where('category', $category)
+            ->when(!empty($startDate) && !empty($endDate), function ($query) use ($startDate, $endDate) {
+                // Tambahkan kondisi rentang tanggal
+                $query->whereBetween('date', [$startDate, $endDate]);
+            })
+            ->groupBy('sale_date')
+            ->orderBy('sale_date', 'ASC')
+            ->get();
+    }
 
-        // filter time range
-        if ($timeRange) {
-            if ($timeRange === '7') {
-            }
-        }
+    // Fungsi untuk mendapatkan total item terjual berdasarkan jam pembelian dan jangka waktu (opsional)
+    public static function getSalesTrendByHourChartData($category, $startDate = null, $endDate = null)
+    {
+        $data = self::selectRaw('hour, SUM(quantity) as total_items_sold')
+            ->where('category', $category)
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('date', [$startDate, $endDate]);
+            })
+            ->groupBy('hour')
+            ->orderBy('hour', 'ASC')
+            ->get();
 
-        return $query->get();
+        // Format hour to 'HH:00'
+        return $data->map(function ($item) {
+            $item->formatted_hour = str_pad($item->hour, 2, '0', STR_PAD_LEFT) . ':00';
+            return $item;
+        });
+    }
+
+    // Fungsi untuk mendapatkan total item terjual berdasarkan harga pembelian dan jangka waktu (opsional)
+    public static function getSalesTrendByPriceChartData($category, $startDate = null, $endDate = null)
+    {
+        $results = self::selectRaw('price, SUM(quantity) as total_items_sold')
+            ->where('category', $category)
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('date', [$startDate, $endDate]);
+            })
+            ->groupBy('price')
+            ->orderBy('price', 'ASC')
+            ->get();
+
+        // Format harga ke dalam Rupiah
+        $results->transform(function ($item) {
+            $item->formatted_price = 'Rp ' . number_format($item->price, 0, ',', '.');
+            return $item;
+        });
+
+        return $results;
     }
 }

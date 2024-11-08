@@ -1,10 +1,10 @@
 <form wire:submit.prevent="submitForm" action="#">
 
     {{-- Product Category Dropdown --}}
-    <div class="grid gap-4 grid-cols-2 sm:grid-cols-2 sm:gap-6 mb-4">
+    <div class="grid gap-4 grid-cols-8 sm:grid-cols-8 sm:gap-6 mb-4">
 
         {{-- Product Category Filter --}}
-        <div class="col-span-1">
+        <div class="col-span-4">
             <label for="product" class="block mb-2 text-xl font-semibold text-gray-900 dark:text-white">
                 Product Category
             </label>
@@ -18,17 +18,44 @@
             </select>
         </div>
 
+
         {{-- Time Filter --}}
-        <div class="col-span-1">
-            <label for="product" class="block mb-2 text-xl font-semibold text-gray-900 dark:text-white">
-                Sales Time Filter
+        <div class="col-span-2">
+            <label for="start-datepicker" class="block mb-2 text-xl font-semibold text-gray-900 dark:text-white">
+                Start Date
             </label>
-            <select id="product" wire:model='timeLastNDay'
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option selected="" value="">-- Pilih Waktu --</option>
-                <option value="7">7 Hari Terakhir</option>
-                <option value="30">30 Hari Terakhir</option>
-            </select>
+            <div class="relative max-w-sm">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                    </svg>
+                </div>
+                <input datepicker id="start-datepicker" type="text" wire:model='startDate' name="startDate"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Pilih waktu awal" datepicker-format="yyyy-mm-dd" datepicker-min-date="2020-06-01"
+                    datepicker-max-date="2020-09-30" @change-date.camel="@this.set('startDate', $event.target.value)">
+            </div>
+        </div>
+
+        <div class="col-span-2">
+            <label for="end-datepicker" class="block mb-2 text-xl font-semibold text-gray-900 dark:text-white">
+                End Date
+            </label>
+            <div class="relative max-w-sm">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                    </svg>
+                </div>
+                <input datepicker id="end-datepicker" type="text" wire:model="endDate" name="endDate"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Pilih waktu akhir" datepicker-format="yyyy-mm-dd" datepicker-min-date="2020-06-01"
+                    datepicker-max-date="2020-09-30" @change-date.camel="@this.set('endDate', $event.target.value)">
+            </div>
         </div>
     </div>
 

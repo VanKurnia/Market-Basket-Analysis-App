@@ -8,62 +8,28 @@
         </h2>
 
         {{-- Form / Chart --}}
-        @if (!$categoryProduct)
+        @if (!$deskripsi_produk)
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
             <x-stot-form></x-stot-form>
-        @else
-            {{-- Chart Canvas --}}
-            <x-stot-result :chartData="$chartData"></x-stot-result>
 
-            <?php
-            // print_r($chartData['labels']);
-            ?>
+            {{-- Penjelasan --}}
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+            <h2 class="mb-3 text-lg text-center font-semibold text-gray-900 dark:text-neutral-400">
+                Analisis ini membantu menemukan pola pembelian pelanggan berdasarkan tanggal pembelian, jumlah produk
+                terjual, waktu pembelian, dan harga produk yang terjual . Bagian hasil akan menampilkan visualisasi dari
+                trend penjualan produk yang dipilih.
+            </h2>
+        @else
+            {{-- trend by number & date of item sold chart  --}}
+            <x-stot-result :chartData="$chartData[0]" :selectedProduct="$selectedProduct" :deskripsiProduk="$deskripsiProduk" :top2DaysOfWeek="$top2DaysOfWeek"
+                :top5Dates="$top5Dates"></x-stot-result>
+
+            {{-- trend by hour of item sold chart  --}}
+            <x-stot-by-hour :chartData="$chartData[1]" :selectedProduct="$selectedProduct" :deskripsiProduk="$deskripsiProduk" :top5Hour="$top5Hour"></x-stot-by-hour>
+
+            {{-- By number of item sold chart  --}}
+            <x-stot-by-price :chartData="$chartData[2]" :selectedProduct="$selectedProduct" :deskripsiProduk="$deskripsiProduk"
+                :top5Price="$top5Price"></x-stot-by-price>
         @endif
     </div>
 </section>
-
-<script>
-    document.addEventListener('livewire:load', () => {
-        let salesTrendChart;
-
-        Livewire.on('chartDataUpdated', (chartData) => {
-            const ctx = document.getElementById('salesTrendChart').getContext('2d');
-
-            // Destroy the existing chart instance if it exists
-            if (salesTrendChart) {
-                salesTrendChart.destroy();
-            }
-
-            // Initialize a new Chart.js instance
-            salesTrendChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: chartData.labels,
-                    datasets: [{
-                        label: 'Sales Price Over Time',
-                        data: chartData.data,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Price'
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    });
-</script>
