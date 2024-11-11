@@ -44,18 +44,18 @@
                         </x-navlink>
                     </li>
                     <li>
-                        <x-navlink wire:navigate href="/top-selling-product" :active="request()->is('top-selling-product')">
+                        <x-navlink href="/sales-trend-over-time" :active="request()->is('sales-trend-over-time')">
+                            Sales Trend Over Time
+                        </x-navlink>
+                    </li>
+                    <li>
+                        <x-navlink href="/top-selling-product" :active="request()->is('top-selling-product')">
                             Top Selling Product
                         </x-navlink>
                     </li>
                     <li>
-                        <x-navlink href="/sales-trend-over-time" :active="request()->is('sales-trend-over-time')">Sales Trend Over
-                            Time
-                        </x-navlink>
-                    </li>
-                    <li>
-                        <x-navlink wire:navigate href="/product-performance" :active="request()->is('product-performance')">Product
-                            Performance
+                        <x-navlink wire:navigate href="/product-performance" :active="request()->is('product-performance')">
+                            Product Performance
                         </x-navlink>
                     </li>
                 </ul>

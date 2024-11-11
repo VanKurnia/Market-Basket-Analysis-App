@@ -1,6 +1,6 @@
 @props(['recommendation', 'rank', 'topSelling', 'productDesc'])
 <div x-data="{{ $recommendation['id'] }}: null" x-init="{{ $recommendation['id'] }} = new Chart(document.getElementById('{{ $recommendation['id'] }}').getContext('2d'), {
-    type: 'doughnut',
+    type: 'line',
     data: {
         {{-- labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], --}}
         labels: [
@@ -41,7 +41,14 @@
             },
             x: {
                 ticks: {
-                    color: '#ffff' // Font color for x-axis labels
+                    color: '#ffff', // Font color for x-axis labels
+                    callback: function(value) {
+                        const maxLabelLength = 10; // Batas panjang label
+                        return value.length > maxLabelLength ? value.substring(0, maxLabelLength) + '...' : value;
+                    },
+                    callback: function(value, index) {
+                        return index + 1; // Menampilkan index + 1 agar mulai dari 1
+                    }
                 }
             }
         },
@@ -75,7 +82,7 @@
             {{-- Chart --}}
             <div class="mt-4 grid grid-cols-6 gap-4">
                 <div class="col-span-3">
-                    <canvas id="{{ $recommendation['id'] }}" width="600" height="400">
+                    <canvas id="{{ $recommendation['id'] }}" width="800" height="800">
                     </canvas>
                 </div>
                 <div class="col-span-3">

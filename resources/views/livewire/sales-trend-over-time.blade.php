@@ -4,7 +4,7 @@
         {{-- Page Heading --}}
         <h2 class="mb-4 text-3xl text-center font-bold text-gray-900 dark:text-white">
             Sales Trend <br>
-            Over Time <br>
+            Over Time Analysis<br>
         </h2>
 
         {{-- Form / Chart --}}
@@ -16,7 +16,7 @@
             <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
             <h2 class="mb-3 text-lg text-center font-semibold text-gray-900 dark:text-neutral-400">
                 Analisis ini membantu menemukan pola pembelian pelanggan berdasarkan tanggal pembelian, jumlah produk
-                terjual, waktu pembelian, dan harga produk yang terjual . Bagian hasil akan menampilkan visualisasi dari
+                terjual, waktu pembelian, dan harga produk yang terjual. Bagian hasil akan menampilkan visualisasi dari
                 trend penjualan produk yang dipilih.
             </h2>
         @else

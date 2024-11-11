@@ -3,51 +3,23 @@
 
         {{-- Page Heading --}}
         <h2 class="mb-4 text-3xl text-center font-bold text-gray-900 dark:text-white">
-            Retail Store 👁️👅👁️<br>
-            Top Selling Product Analysis<br>
-            📈 📊 📆 💸
+            Top Selling <br>
+            Product Analysis<br>
         </h2>
 
-        {{-- Chart & Filter --}}
-        <div class="p-6 mb-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            {{-- Filter --}}
-
-
-            {{-- CHART --}}
-            {{-- <canvas id="myChart"></canvas> --}}
-        </div>
-
-        {{-- Analysis Result --}}
-        <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <h2 class="text-white text-center text-2xl">
-                🚧🚧🚧 WIP 🚧🚧🚧
+        {{-- Form / Chart --}}
+        @if (!$deskripsiProduk)
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+            <x-top-selling-form></x-top-selling-form>
+            {{-- Penjelasan --}}
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+            <h2 class="mb-3 text-lg text-center font-semibold text-gray-900 dark:text-neutral-400">
+                Analisis ini akan membantu menemukan nama produk yang paling populer sesuai dengan kategori produk yang
+                dipilih. Bagian hasil akan menampilkan visualisasi dan analisis dari top selling product.
             </h2>
-        </div>
+        @else
+            <x-top-selling-result :chartData="$chartData" :selectedProduct="$selectedProduct" :deskripsiProduk="$deskripsiProduk"></x-top-selling-result>
+        @endif
 
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('myChart');
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
-
 </section>

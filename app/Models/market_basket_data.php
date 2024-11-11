@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -102,6 +103,36 @@ class market_basket_data extends Model
             ->get();
 
         // Format harga ke dalam Rupiah
+        $results->transform(function ($item) {
+            $item->formatted_price = 'Rp ' . number_format($item->price, 0, ',', '.');
+            return $item;
+        });
+
+        return $results;
+    }
+
+    // Top Selling Product
+    public static function getTopSellingProducts($category, $startDate = null, $endDate = null, $minPrice = null, $maxPrice = null)
+    {
+        $results = self::select('product_name', 'price', DB::raw('SUM(quantity) as total_sales'))
+            ->where('category', $category)
+            ->when($startDate, function ($query) use ($startDate) {
+                $query->where('date', '>=', $startDate);
+            })
+            ->when($endDate, function ($query) use ($endDate) {
+                $query->where('date', '<=', $endDate);
+            })
+            ->when($minPrice, function ($query) use ($minPrice) {
+                $query->where('price', '>=', $minPrice);
+            })
+            ->when($maxPrice, function ($query) use ($maxPrice) {
+                $query->where('price', '<=', $maxPrice);
+            })
+            ->groupBy('product_name', 'price')
+            ->orderByDesc('total_sales')
+            ->take(10)
+            ->get();
+
         $results->transform(function ($item) {
             $item->formatted_price = 'Rp ' . number_format($item->price, 0, ',', '.');
             return $item;
