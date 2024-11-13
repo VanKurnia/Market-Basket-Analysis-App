@@ -11,7 +11,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+
+
 </head>
 
 <body class="bg-white dark:bg-gray-900">

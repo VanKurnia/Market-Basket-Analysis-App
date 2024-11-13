@@ -140,4 +140,21 @@ class market_basket_data extends Model
 
         return $results;
     }
+
+    // product performance chart data
+    public static function getProductPerformanceChartData($startDate = null, $endDate = null)
+    {
+        $salesData = self::selectRaw('DATE(date) as sale_date, category, SUM(quantity) as total_sales')
+            ->when($startDate, function ($query, $startDate) {
+                return $query->whereDate('date', '>=', Carbon::parse($startDate));
+            })
+            ->when($endDate, function ($query, $endDate) {
+                return $query->whereDate('date', '<=', Carbon::parse($endDate));
+            })
+            ->groupBy('sale_date', 'category')
+            ->orderBy('sale_date')
+            ->get();
+
+        return $salesData;
+    }
 }
