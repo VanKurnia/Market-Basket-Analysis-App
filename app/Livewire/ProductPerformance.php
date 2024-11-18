@@ -11,6 +11,8 @@ use App\Models\market_basket_data;
 #[Title('MBA - Market Analysis')]
 class ProductPerformance extends Component
 {
+    public $products = [];
+    public $selectedCategories = [];
     public $startDate;
     public $endDate;
     public $chartData;
@@ -19,12 +21,20 @@ class ProductPerformance extends Component
     {
         $this->startDate = null;
         $this->endDate = null;
-        $this->loadSalesData();
+        $this->products = market_basket_data::getTypeProductData();
     }
 
-    public function loadSalesData()
+    public function submitForm()
     {
-        $salesData = market_basket_data::getProductPerformanceChartData($this->startDate, $this->endDate);
+        // dump($this->startDate);
+        // dump($this->endDate);
+        // dd($this->selectedCategories);
+
+        $salesData = market_basket_data::getProductPerformanceChartData(
+            $this->selectedCategories,
+            $this->startDate,
+            $this->endDate,
+        );
 
         $dataByCategory = [];
         foreach ($salesData as $sale) {
@@ -58,12 +68,14 @@ class ProductPerformance extends Component
         }
 
         $this->chartData = $chartData;
-        dd($chartData);
+        // dd($chartData);
     }
 
     public function render()
     {
+        // dd($this->products);
         return view('livewire.product-performance', [
+            'products'  => $this->products,
             'chartData' => $this->chartData,
         ]);
     }
@@ -72,8 +84,11 @@ class ProductPerformance extends Component
     private function generateRandomColor()
     {
         $r = rand(0, 255);
+        // $r = 255;
         $g = rand(0, 255);
+        // $g = 255;
         $b = rand(0, 255);
+        // $b = 255;
         $a = 1; // Transparansi
 
         return "rgba($r, $g, $b, $a)";

@@ -54,7 +54,7 @@
                         </x-navlink>
                     </li>
                     <li>
-                        <x-navlink wire:navigate href="/product-performance" :active="request()->is('product-performance')">
+                        <x-navlink href="/product-performance" :active="request()->is('product-performance')">
                             Product Performance
                         </x-navlink>
                     </li>

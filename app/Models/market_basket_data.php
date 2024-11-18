@@ -62,9 +62,11 @@ class market_basket_data extends Model
     {
         return self::selectRaw('DATE(date) as sale_date, SUM(quantity) as total_items_sold')
             ->where('category', $category)
-            ->when(!empty($startDate) && !empty($endDate), function ($query) use ($startDate, $endDate) {
-                // Tambahkan kondisi rentang tanggal
-                $query->whereBetween('date', [$startDate, $endDate]);
+            ->when($startDate, function ($query) use ($startDate) {
+                $query->where('date', '>=', $startDate);
+            })
+            ->when($endDate, function ($query) use ($endDate) {
+                $query->where('date', '<=', $endDate);
             })
             ->groupBy('sale_date')
             ->orderBy('sale_date', 'ASC')
@@ -76,8 +78,11 @@ class market_basket_data extends Model
     {
         $data = self::selectRaw('hour, SUM(quantity) as total_items_sold')
             ->where('category', $category)
-            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('date', [$startDate, $endDate]);
+            ->when($startDate, function ($query) use ($startDate) {
+                $query->where('date', '>=', $startDate);
+            })
+            ->when($endDate, function ($query) use ($endDate) {
+                $query->where('date', '<=', $endDate);
             })
             ->groupBy('hour')
             ->orderBy('hour', 'ASC')
@@ -95,8 +100,11 @@ class market_basket_data extends Model
     {
         $results = self::selectRaw('price, SUM(quantity) as total_items_sold')
             ->where('category', $category)
-            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('date', [$startDate, $endDate]);
+            ->when($startDate, function ($query) use ($startDate) {
+                $query->where('date', '>=', $startDate);
+            })
+            ->when($endDate, function ($query) use ($endDate) {
+                $query->where('date', '<=', $endDate);
             })
             ->groupBy('price')
             ->orderBy('price', 'ASC')
@@ -142,7 +150,7 @@ class market_basket_data extends Model
     }
 
     // product performance chart data
-    public static function getProductPerformanceChartData($startDate = null, $endDate = null)
+    public static function getProductPerformanceChartData($categories = [], $startDate = null, $endDate = null)
     {
         $salesData = self::selectRaw('DATE(date) as sale_date, category, SUM(quantity) as total_sales')
             ->when($startDate, function ($query, $startDate) {
@@ -150,6 +158,9 @@ class market_basket_data extends Model
             })
             ->when($endDate, function ($query, $endDate) {
                 return $query->whereDate('date', '<=', Carbon::parse($endDate));
+            })
+            ->when(!empty($categories), function ($query) use ($categories) {
+                return $query->whereIn('category', $categories);
             })
             ->groupBy('sale_date', 'category')
             ->orderBy('sale_date')
