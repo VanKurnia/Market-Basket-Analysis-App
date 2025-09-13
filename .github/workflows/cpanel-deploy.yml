@@ -29,4 +29,4 @@ jobs:
         server: ${{ secrets.SERVER }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        server-dir: public_html/mba.ivan-kurniawan.my.id/
+        server-dir: mba.ivan-kurniawan.my.id/
